@@ -1,4 +1,4 @@
-package com.example.asteroidradarapp
+package com.example.asteroidRadarApp
 
 import org.junit.Test
 
