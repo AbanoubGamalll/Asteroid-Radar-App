@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.asteroidRadarApp.adapter.AsteroidAdapter
 import com.example.asteroidRadarApp.databinding.FragmentMainBinding
+import com.example.asteroidRadarApp.model.AsteroidModel
 
 
 class MainFragment : Fragment() {
@@ -18,9 +19,15 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentMainBinding.inflate(inflater)
-        val viewModel: MainViewModel by activityViewModels()
+
+        val viewModel: MainViewModel = ViewModelProvider(
+            this,
+            MainViewModelFactory(requireContext())
+        )[MainViewModel::class.java]
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
         val adapter = AsteroidAdapter {
             findNavController().navigate(
                 MainFragmentDirections.actionShowDetail(it)
@@ -28,14 +35,6 @@ class MainFragment : Fragment() {
         }
 
         binding.RecyclerView.adapter = adapter
-
-        viewModel.data.observe(viewLifecycleOwner){
-            it?.let {
-                adapter.submitList(it)
-            }
-        }
-
-        viewModel.add()
 
         return binding.root
     }

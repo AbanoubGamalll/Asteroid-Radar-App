@@ -1,27 +1,43 @@
 package com.example.asteroidRadarApp.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.content.Context
+import androidx.lifecycle.*
+import com.example.asteroidRadarApp.dataBase.getAsteroidDatabaseDAOInstance
 import com.example.asteroidRadarApp.model.AsteroidModel
+import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
-class MainViewModel : ViewModel() {
-    private val _data = MutableLiveData<List<AsteroidModel>>()
+class MainViewModel(context: Context) : ViewModel() {
+
+    private val dp = getAsteroidDatabaseDAOInstance(context)
+
+    private var _data: LiveData<List<AsteroidModel>> = dp.getAsteroidList()
     val data: LiveData<List<AsteroidModel>>
         get() = _data
 
-
-    fun add(){
-
-        val list = mutableListOf<AsteroidModel>()
-        list.add(AsteroidModel(1,"a","a",1.0,1.0,1.0,1.0,true))
-        list.add(AsteroidModel(2,"b","a",1.0,1.0,1.0,1.0,true))
-        list.add(AsteroidModel(3,"c","a",1.0,1.0,1.0,1.0,false))
-        list.add(AsteroidModel(4,"d","a",1.0,1.0,1.0,1.0,true))
-        list.add(AsteroidModel(5,"e","a",1.0,1.0,1.0,1.0,true))
-
-        _data.value = list
-
+    fun insert(vararg model: AsteroidModel) {
+        viewModelScope.launch {
+            dp.insert(*model)
+        }
     }
 
+    fun clear() {
+        viewModelScope.launch {
+            dp.clear()
+        }
+    }
 }
+
+
+class MainViewModelFactory(
+    private val context: Context
+) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            return MainViewModel(context) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+

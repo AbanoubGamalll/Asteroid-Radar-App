@@ -1,9 +1,12 @@
-package com.example.asteroidRadarApp.adapter
+package com.example.asteroidRadarApp.until
 
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.asteroidRadarApp.R
+import com.example.asteroidRadarApp.adapter.AsteroidAdapter
+import com.example.asteroidRadarApp.model.AsteroidModel
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -39,4 +42,12 @@ fun bindTextViewToKmUnit(textView: TextView, number: Double) {
 fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+}
+
+@BindingAdapter("addList")
+fun addList(recyclerView: RecyclerView, list: List<AsteroidModel>?) {
+    if (list != null) {
+        val ad=recyclerView.adapter as AsteroidAdapter
+        ad.submitList(list)
+    }
 }
