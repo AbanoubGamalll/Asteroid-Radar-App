@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="model"
             type="com.example.asteroidRadarApp.model.AsteroidModel" />
@@ -52,11 +53,11 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@{model.codename}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:statusIcon="@{model.isPotentiallyHazardous}"
-            tools:srcCompat="@drawable/ic_status_potentially_hazardous"
-            android:contentDescription="@string/TODO" />
+            tools:srcCompat="@drawable/ic_status_potentially_hazardous" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
