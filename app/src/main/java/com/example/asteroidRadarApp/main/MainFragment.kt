@@ -28,13 +28,11 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val adapter = AsteroidAdapter {
+        binding.RecyclerView.adapter = AsteroidAdapter {
             findNavController().navigate(
                 MainFragmentDirections.actionShowDetail(it)
             )
         }
-
-        binding.RecyclerView.adapter = adapter
 
         return binding.root
     }

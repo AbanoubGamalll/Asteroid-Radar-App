@@ -1,12 +1,17 @@
 package com.example.asteroidRadarApp.until
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.asteroidRadarApp.R
 import com.example.asteroidRadarApp.adapter.AsteroidAdapter
 import com.example.asteroidRadarApp.model.AsteroidModel
+import com.example.asteroidRadarApp.model.PictureOfDayModel
+import com.example.asteroidRadarApp.model.State
+import com.squareup.picasso.Picasso
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -51,3 +56,29 @@ fun addList(recyclerView: RecyclerView, list: List<AsteroidModel>?) {
         ad.submitList(list)
     }
 }
+
+
+@BindingAdapter("showImageOfDay")
+fun showImageOfDay(img: ImageView, model: PictureOfDayModel?) {
+    model?.let {
+        if (it.state == State.Done) {
+            Picasso.with(img.context)
+                .load(it.url)
+                .error(R.drawable.placeholder_picture_of_day)
+                .into(img)
+        } else {
+            img.setImageResource(R.drawable.placeholder_picture_of_day)
+        }
+    }
+
+}
+
+@BindingAdapter("visibilityLoading")
+fun visibilityLoading(progressBar: ProgressBar, state: State?) {
+    progressBar.visibility = when (state) {
+        State.Finish -> View.VISIBLE
+        State.Loading -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+

@@ -31,7 +31,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/todo"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:showImageOfDay="@{viewModel.today}" />
 
             <TextView
                 android:id="@+id/textView"
@@ -40,10 +40,11 @@
                 android:layout_gravity="bottom"
                 android:background="#55010613"
                 android:padding="16dp"
-                android:text="@string/todo"
+                android:text="@{viewModel.today.title}"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="@string/todo" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -67,10 +68,10 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:indeterminate="true"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibilityLoading="@{viewModel.today.state}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
