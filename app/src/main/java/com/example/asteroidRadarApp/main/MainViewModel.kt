@@ -49,6 +49,7 @@ class MainViewModel(private val context: Context) : ViewModel() {
             } catch (e: Exception) {
                 _state.value = State.Done
                 Log.i("asd",e.message.toString())
+                Toast.makeText(context, "Check Your Network Connection", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -62,7 +63,6 @@ class MainViewModel(private val context: Context) : ViewModel() {
                 _state.value = State.Done
             } catch (e: Exception) {
                 _state.value = State.Done
-                Toast.makeText(context, "Check Your Network Connection", Toast.LENGTH_SHORT).show()
             }
         }
     }

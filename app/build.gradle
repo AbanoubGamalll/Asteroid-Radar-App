@@ -56,6 +56,8 @@ dependencies {
 
     //picasso
     implementation "com.squareup.picasso:picasso:2.5.2"
+    //Worker
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
     //////////
 
 
