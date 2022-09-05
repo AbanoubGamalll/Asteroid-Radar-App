@@ -9,7 +9,7 @@ import com.example.asteroidRadarApp.model.AsteroidModel
 @Dao
 interface AsteroidDataBaseDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insert(vararg item: AsteroidModel)
 
     @Query("SELECT * FROM Asteroid_table ORDER BY closeApproachDate")

@@ -52,7 +52,7 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 @BindingAdapter("addList")
 fun addList(recyclerView: RecyclerView, list: List<AsteroidModel>?) {
     if (list != null) {
-        val ad=recyclerView.adapter as AsteroidAdapter
+        val ad = recyclerView.adapter as AsteroidAdapter
         ad.submitList(list)
     }
 }
@@ -60,25 +60,17 @@ fun addList(recyclerView: RecyclerView, list: List<AsteroidModel>?) {
 
 @BindingAdapter("showImageOfDay")
 fun showImageOfDay(img: ImageView, model: PictureOfDayModel?) {
-    model?.let {
-        if (it.state == State.Done) {
-            Picasso.with(img.context)
-                .load(it.url)
-                .error(R.drawable.placeholder_picture_of_day)
-                .into(img)
-        } else {
-            img.setImageResource(R.drawable.placeholder_picture_of_day)
-        }
-    }
-
+    if (model != null && model.mediaType == "image") Picasso.with(img.context).load(model.url)
+        .error(R.drawable.placeholder_picture_of_day).into(img)
+    else img.setImageResource(R.drawable.placeholder_picture_of_day)
 }
 
 @BindingAdapter("visibilityLoading")
 fun visibilityLoading(progressBar: ProgressBar, state: State?) {
     progressBar.visibility = when (state) {
-        State.Finish -> View.VISIBLE
-        State.Loading -> View.VISIBLE
-        else -> View.GONE
+        State.Done -> View.GONE
+        else -> View.VISIBLE
     }
 }
+
 

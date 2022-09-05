@@ -72,6 +72,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:visibilityLoading="@{viewModel.today.state}" />
+            app:visibilityLoading="@{viewModel.state}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
