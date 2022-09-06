@@ -4,8 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
-import com.example.asteroidRadarApp.dataBase.getAsteroidDatabaseDAOInstance
-import com.example.asteroidRadarApp.dataBase.getPictureDatabaseDAOInstance
+import com.example.asteroidRadarApp.dataBase.getDatabaseDAOInstance
 import com.example.asteroidRadarApp.model.AsteroidModel
 import com.example.asteroidRadarApp.model.PictureOfDayModel
 import com.example.asteroidRadarApp.model.State
@@ -17,14 +16,13 @@ import java.lang.IllegalArgumentException
 
 class MainViewModel(private val context: Context) : ViewModel() {
 
-    private val AsteroidDP = getAsteroidDatabaseDAOInstance(context)
-    private val PictureDP = getPictureDatabaseDAOInstance(context)
+    private val dp = getDatabaseDAOInstance(context)
 
-    private var _data = AsteroidDP.getAsteroidList()
+    private var _data: LiveData<List<AsteroidModel>> = dp.getAsteroidWeekList()
     val data: LiveData<List<AsteroidModel>>
         get() = _data
 
-    private val _today: LiveData<PictureOfDayModel> = PictureDP.getPicture()
+    private val _today: LiveData<PictureOfDayModel> = dp.getPicture()
     val today: LiveData<PictureOfDayModel>
         get() = _today
 
@@ -43,12 +41,12 @@ class MainViewModel(private val context: Context) : ViewModel() {
             try {
                 val result = getAsteroidAPIInstance().getAllDayAsteroid()
                 val ObjectResult = parseAsteroidsJsonResult(JSONObject(result))
-                AsteroidDP.clear()
-                AsteroidDP.insert(*ObjectResult.toTypedArray())
+                //dp.clearAsteroids()
+                dp.insert(*ObjectResult.toTypedArray())
                 _state.value = State.Done
             } catch (e: Exception) {
                 _state.value = State.Done
-                Log.i("asd",e.message.toString())
+                Log.i("asd", e.message.toString())
                 Toast.makeText(context, "Check Your Network Connection", Toast.LENGTH_SHORT).show()
             }
         }
@@ -58,8 +56,8 @@ class MainViewModel(private val context: Context) : ViewModel() {
         viewModelScope.launch {
             try {
                 val pictureOfDayModel = getAsteroidAPIInstance().getTodayAsteroid()
-                PictureDP.clear()
-                PictureDP.insert(pictureOfDayModel)
+                dp.clearPicture()
+                dp.insert(pictureOfDayModel)
                 _state.value = State.Done
             } catch (e: Exception) {
                 _state.value = State.Done
@@ -67,7 +65,27 @@ class MainViewModel(private val context: Context) : ViewModel() {
         }
     }
 
+
+    fun getAsteroidTodayList(){
+        viewModelScope.launch {
+            _data = dp.getAsteroidTodayList()
+        }
+    }
+
+    fun getAsteroidWeekList(){
+        viewModelScope.launch {
+            _data = dp.getAsteroidWeekList()
+        }
+    }
+
+    fun getAsteroidAllList() {
+        viewModelScope.launch {
+            _data = dp.getAsteroidAllList()
+        }
+    }
+
 }
+
 
 class MainViewModelFactory(
     private val context: Context
@@ -80,4 +98,3 @@ class MainViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-

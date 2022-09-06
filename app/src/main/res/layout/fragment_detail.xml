@@ -23,8 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/asteroid_safe"
-            android:contentDescription="@string/todo" />
+            tools:srcCompat="@drawable/asteroid_safe" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -95,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         app:srcCompat="@drawable/ic_help_circle"
-                        android:contentDescription="@string/todo" />
+                        android:contentDescription="@string/astronomical_unit_explanation_button" />
 
                 </LinearLayout>
 

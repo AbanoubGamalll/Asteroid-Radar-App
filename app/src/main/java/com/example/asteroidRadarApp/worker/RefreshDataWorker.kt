@@ -4,10 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.asteroidRadarApp.R
-import com.example.asteroidRadarApp.dataBase.getPictureDatabaseDAOInstance
+import com.example.asteroidRadarApp.dataBase.getDatabaseDAOInstance
 import com.example.asteroidRadarApp.retrofit.getAsteroidAPIInstance
-import com.squareup.picasso.Picasso
 
 
 class RefreshDataWorker
@@ -19,11 +17,11 @@ class RefreshDataWorker
     }
 
     override suspend fun doWork(): Result {
-        val PictureDP = getPictureDatabaseDAOInstance(context)
+        val PictureDP = getDatabaseDAOInstance(context)
         Log.i("asd","Run BackGround")
         return try {
             val pictureOfDayModel = getAsteroidAPIInstance().getTodayAsteroid()
-            PictureDP.clear()
+            PictureDP.clearPicture()
             PictureDP.insert(pictureOfDayModel)
             Result.success()
         } catch (e: Exception) {

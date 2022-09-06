@@ -17,8 +17,13 @@ import com.squareup.picasso.Picasso
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+        imageView.contentDescription =
+            imageView.resources.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
         imageView.setImageResource(R.drawable.ic_status_normal)
+        imageView.contentDescription =
+            imageView.resources.getString(R.string.not_hazardous_asteroid_image)
+
     }
 }
 
@@ -26,8 +31,12 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.contentDescription =
+            imageView.resources.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.contentDescription =
+            imageView.resources.getString(R.string.not_hazardous_asteroid_image)
     }
 }
 
@@ -51,10 +60,9 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 
 @BindingAdapter("addList")
 fun addList(recyclerView: RecyclerView, list: List<AsteroidModel>?) {
-    if (list != null) {
-        val ad = recyclerView.adapter as AsteroidAdapter
-        ad.submitList(list)
-    }
+    val ad = recyclerView.adapter as AsteroidAdapter
+    ad.submitList(list)
+
 }
 
 
